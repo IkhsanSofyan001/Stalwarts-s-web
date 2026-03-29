@@ -24,7 +24,7 @@
       overflow-x: hidden;
     }
 
-    /* ── NAVBAR ─────────────────────────────── */
+    /* NAVBAR */
     nav {
       position: fixed;
       top: 20px;
@@ -48,17 +48,11 @@
       cursor: pointer;
       text-decoration: none;
     }
-    .logo img {
-      width: 40px; height: 40px;
-      object-fit: contain; border-radius: 50%;
-    }
+    .logo img { width: 40px; height: 40px; object-fit: contain; border-radius: 50%; }
     .logo span { font-size: 18px; font-weight: 600; color: var(--ink); }
 
     nav ul { display: flex; gap: 20px; list-style: none; }
-    nav ul a {
-      color: var(--ink); text-decoration: none; font-size: 14px;
-      position: relative;
-    }
+    nav ul a { color: var(--ink); text-decoration: none; font-size: 14px; position: relative; }
     nav ul a::after {
       content: ""; position: absolute;
       width: 0%; height: 2px;
@@ -67,7 +61,7 @@
     }
     nav ul a:hover::after { width: 100%; }
 
-    /* ── PAGE HEADER ──────────────────────── */
+    /* PAGE HEADER */
     .page-header {
       padding: 140px 60px 20px;
       text-align: center;
@@ -84,7 +78,7 @@
       font-size: 15px;
     }
 
-    /* ── TIMELINE WRAPPER ─────────────────── */
+    /* TIMELINE */
     .timeline {
       position: relative;
       max-width: 1100px;
@@ -92,7 +86,6 @@
       padding: 0 40px;
     }
 
-    /* vertical line */
     .timeline::before {
       content: "";
       position: absolute;
@@ -103,13 +96,11 @@
       transform: translateX(-50%);
     }
 
-    /* ── EVENT BLOCK ──────────────────────── */
     .event {
       position: relative;
       margin-bottom: 100px;
     }
 
-    /* Event label badge */
     .event-label {
       position: relative;
       z-index: 5;
@@ -119,7 +110,6 @@
       margin-bottom: 48px;
     }
 
-    /* diamond dot on the line */
     .event-label::before {
       content: "";
       width: 14px; height: 14px;
@@ -152,7 +142,7 @@
       margin-top: 4px;
     }
 
-    /* ── SCATTER GRID ─────────────────────── */
+    /* SCATTER GRID */
     .scatter {
       display: flex;
       flex-wrap: wrap;
@@ -162,7 +152,7 @@
       min-height: 340px;
     }
 
-    /* ── POLAROID ─────────────────────────── */
+    /* POLAROID */
     .polaroid {
       background: white;
       padding: 10px 10px 42px;
@@ -173,18 +163,17 @@
       flex-shrink: 0;
       transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s;
       z-index: 1;
-      margin: -10px;   /* allow overlap */
+      margin: -10px;
     }
 
-    /* Default rotations — overridden per nth-child */
-    .polaroid:nth-child(1)  { transform: rotate(-4deg)   translate(8px, 6px); }
-    .polaroid:nth-child(2)  { transform: rotate(2.5deg)  translate(-4px, 14px); }
-    .polaroid:nth-child(3)  { transform: rotate(-1.5deg) translate(10px, -8px); }
-    .polaroid:nth-child(4)  { transform: rotate(3.5deg)  translate(-8px, 10px); }
-    .polaroid:nth-child(5)  { transform: rotate(-3deg)   translate(6px, 20px); }
-    .polaroid:nth-child(6)  { transform: rotate(1.8deg)  translate(-10px, 4px); }
-    .polaroid:nth-child(7)  { transform: rotate(-2.5deg) translate(4px, 12px); }
-    .polaroid:nth-child(8)  { transform: rotate(4deg)    translate(-6px, -6px); }
+    .polaroid:nth-child(1) { transform: rotate(-4deg)   translate(8px, 6px); }
+    .polaroid:nth-child(2) { transform: rotate(2.5deg)  translate(-4px, 14px); }
+    .polaroid:nth-child(3) { transform: rotate(-1.5deg) translate(10px, -8px); }
+    .polaroid:nth-child(4) { transform: rotate(3.5deg)  translate(-8px, 10px); }
+    .polaroid:nth-child(5) { transform: rotate(-3deg)   translate(6px, 20px); }
+    .polaroid:nth-child(6) { transform: rotate(1.8deg)  translate(-10px, 4px); }
+    .polaroid:nth-child(7) { transform: rotate(-2.5deg) translate(4px, 12px); }
+    .polaroid:nth-child(8) { transform: rotate(4deg)    translate(-6px, -6px); }
 
     .polaroid:hover {
       transform: rotate(0deg) scale(1.07) translateY(-12px) !important;
@@ -210,7 +199,7 @@
       padding: 0 4px;
     }
 
-    /* ── TAPE ──────────────────────────────── */
+    /* TAPE */
     .polaroid::before {
       content: "";
       position: absolute;
@@ -226,13 +215,12 @@
       z-index: 5;
     }
 
-    /* alternate tape angle */
     .polaroid:nth-child(even)::before {
       transform: translateX(-50%) rotate(3deg);
       left: 45%;
     }
 
-    /* ── LIGHTBOX ──────────────────────────── */
+    /* LIGHTBOX */
     .lightbox {
       position: fixed;
       inset: 0;
@@ -250,10 +238,7 @@
       gap: 20px;
     }
 
-    .lightbox.active {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .lightbox.active { opacity: 1; pointer-events: all; }
 
     .lightbox-inner {
       display: flex;
@@ -269,9 +254,7 @@
       transition: transform 0.35s ease;
     }
 
-    .lightbox.active .lightbox-inner {
-      transform: scale(1);
-    }
+    .lightbox.active .lightbox-inner { transform: scale(1); }
 
     .lightbox-inner img {
       max-width: 80vw;
@@ -313,7 +296,6 @@
     }
     .lightbox-close:hover { background: rgba(255,255,255,0.2); }
 
-    /* ── FOOTER SPACE ─────────────────────── */
     .end-note {
       text-align: center;
       padding: 0 0 100px;
@@ -322,20 +304,109 @@
       color: rgba(30,41,59,0.5);
     }
 
-    /* ── RESPONSIVE ───────────────────────── */
-    @media (max-width: 700px) {
-      .timeline::before { left: 20px; }
-      .event-label { align-items: flex-start; padding-left: 44px; }
-      .event-label::before { position: absolute; left: 13px; }
-      .scatter { justify-content: flex-start; padding-left: 60px; }
-      .polaroid { width: 150px; }
-      nav { left: 16px; right: 16px; }
+    /* ── MOBILE ≤ 768px ─────────────────────── */
+    @media (max-width: 768px) {
+
+      nav {
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        padding: 8px 14px;
+      }
+
+      .logo img  { width: 30px; height: 30px; }
+      .logo span { font-size: 14px; }
+      nav ul     { gap: 12px; }
+      nav ul a   { font-size: 13px; }
+
+      .page-header     { padding: 90px 20px 20px; }
+      .page-header h1  { font-size: 48px; }
+      .page-header p   { font-size: 14px; }
+
+      /* Spine shifts to left edge */
+      .timeline {
+        padding: 0 16px;
+        margin: 40px auto 80px;
+      }
+
+      .timeline::before {
+        left: 28px;
+        transform: none;
+      }
+
+      /* Event label aligns left near spine */
+      .event-label {
+        align-items: flex-start;
+        padding-left: 52px;
+        margin-bottom: 24px;
+        position: relative;
+      }
+
+      .event-label::before {
+        position: absolute;
+        left: 21px;
+        margin-bottom: 0;
+      }
+
+      .event-tag  { font-size: 18px; padding: 4px 14px; }
+
+      /* Scatter: 2-column wrap grid — no more horizontal scroll */
+      .scatter {
+        flex-wrap: wrap;
+        overflow-x: visible;
+        justify-content: center;
+        padding: 8px 0 24px;
+        min-height: unset;
+        gap: 20px;
+      }
+
+      .polaroid {
+        transform: none !important;
+        margin: 0;
+        width: calc(50% - 10px);
+        flex-shrink: 0;
+        padding-bottom: 36px;
+      }
+
+      /* Hide tape on mobile */
+      .polaroid::before { display: none; }
+
+      .polaroid-caption { font-size: 14px; }
+
+      .event { margin-bottom: 60px; }
+
+      .end-note { font-size: 22px; padding-bottom: 60px; }
+
+      /* Lightbox */
+      .lightbox-inner {
+        padding: 10px 10px 20px;
+        max-width: 95vw;
+      }
+
+      .lightbox-inner img {
+        max-height: 60vh;
+        max-width: 88vw;
+      }
+
+      .lightbox-caption { font-size: 18px; }
+      .lightbox-close   { top: 16px; right: 16px; }
+    }
+
+    /* ── SMALL PHONES ≤ 430px ───────────────── */
+    @media (max-width: 430px) {
+      .logo span  { display: none; }
+      nav ul      { gap: 8px; }
+      nav ul a    { font-size: 12px; }
+
+      .page-header h1 { font-size: 38px; }
+
+      /* Single column on very small screens */
+      .polaroid { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav>
     <a href="index.html" class="logo">
       <img src="assets/images/logo.jpg" alt="logo">
@@ -348,13 +419,11 @@
     </ul>
   </nav>
 
-  <!-- HEADER -->
   <div class="page-header">
     <h1>Our Memories</h1>
     <p>Two years. Every moment worth keeping.</p>
   </div>
 
-  <!-- TIMELINE -->
   <div class="timeline" id="timeline"></div>
 
   <div class="end-note">… and a hundred more we'll never forget ✦</div>
@@ -371,7 +440,6 @@
 
   <script src="memories-data.js"></script>
   <script>
-    // ── RENDER ──
     const timeline = document.getElementById('timeline');
 
     memories.forEach(({ event, year, photos }) => {
@@ -394,11 +462,10 @@
       timeline.appendChild(block);
     });
 
-    // ── LIGHTBOX ──
     function openLightbox(src, caption, event) {
-      document.getElementById('lbImg').src         = src;
-      document.getElementById('lbCaption').textContent = caption;
-      document.getElementById('lbEvent').textContent   = event;
+      document.getElementById('lbImg').src              = src;
+      document.getElementById('lbCaption').textContent  = caption;
+      document.getElementById('lbEvent').textContent    = event;
       document.getElementById('lightbox').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
