@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memories — Yearbook 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
   <style>
@@ -322,108 +323,13 @@
     }
 
     /* ── RESPONSIVE ───────────────────────── */
-    @media (max-width: 768px) {
-      nav {
-        top: 12px;
-        left: 12px;
-        right: 12px;
-        padding: 8px 14px;
-      }
-
-      nav ul { gap: 14px; }
-      nav ul a { font-size: 13px; }
-      .logo img { width: 30px; height: 30px; }
-      .logo span { font-size: 14px; }
-
-      .page-header {
-        padding: 100px 20px 20px;
-      }
-
-      .page-header h1 {
-        font-size: 48px;
-      }
-
-      .page-header p {
-        font-size: 14px;
-      }
-
-      /* Move the timeline spine to the left */
-      .timeline {
-        padding: 0 16px;
-        margin: 40px auto 80px;
-      }
-
-      .timeline::before {
-        left: 20px;
-        transform: none;
-      }
-
-      /* Align event labels to left, near the spine */
-      .event-label {
-        align-items: flex-start;
-        padding-left: 44px;
-      }
-
-      .event-label::before {
-        position: absolute;
-        left: 13px;
-        margin-bottom: 0;
-      }
-
-      .event-tag {
-        font-size: 18px;
-        padding: 4px 14px;
-      }
-
-      /* Scatter: scroll horizontally on mobile */
-      .scatter {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        justify-content: flex-start;
-        padding: 20px 0 20px 60px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: 12px;
-        margin: -10px 0;
-      }
-
-      .scatter::-webkit-scrollbar { display: none; }
-
-      .polaroid {
-        width: 150px;
-        flex-shrink: 0;
-        margin: 0; /* remove negative margins that cause overlap on mobile */
-      }
-
-      /* remove tape on mobile so it doesn't clip outside container */
-      .polaroid::before { display: none; }
-
-      .polaroid-caption { font-size: 14px; }
-
-      .end-note { font-size: 22px; padding-bottom: 60px; }
-
-      /* Lightbox */
-      .lightbox-inner {
-        padding: 10px 10px 20px;
-        max-width: 95vw;
-      }
-
-      .lightbox-inner img {
-        max-height: 60vh;
-        max-width: 90vw;
-      }
-
-      .lightbox-caption { font-size: 18px; }
-    }
-
-    @media (max-width: 430px) {
-      .logo span { display: none; }
-      nav ul { gap: 10px; }
-      nav ul a { font-size: 12px; }
-
-      .page-header h1 { font-size: 38px; }
-
-      .polaroid { width: 130px; }
+    @media (max-width: 700px) {
+      .timeline::before { left: 20px; }
+      .event-label { align-items: flex-start; padding-left: 44px; }
+      .event-label::before { position: absolute; left: 13px; }
+      .scatter { justify-content: flex-start; padding-left: 60px; }
+      .polaroid { width: 150px; }
+      nav { left: 16px; right: 16px; }
     }
   </style>
 </head>
