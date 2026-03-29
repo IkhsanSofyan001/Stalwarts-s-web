@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Memories — Yearbook 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blue-light: #bfdbfe;
+      --blue-mid:   #a5b4fc;
+      --blue-dark:  #6366f1;
+      --ink:        #1e293b;
+      --muted:      #475569;
+    }
+
+    body {
+      background: linear-gradient(135deg, #bfdbfe, #a5b4fc, #c4b5fd);
+      background-attachment: fixed;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ─────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 40px;
+      right: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.05);
+      padding: 10px 20px;
+      border-radius: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 40px; height: 40px;
+      object-fit: contain; border-radius: 50%;
+    }
+    .logo span { font-size: 18px; font-weight: 600; color: var(--ink); }
+
+    nav ul { display: flex; gap: 20px; list-style: none; }
+    nav ul a {
+      color: var(--ink); text-decoration: none; font-size: 14px;
+      position: relative;
+    }
+    nav ul a::after {
+      content: ""; position: absolute;
+      width: 0%; height: 2px;
+      background: var(--blue-dark);
+      left: 0; bottom: -4px; transition: 0.3s;
+    }
+    nav ul a:hover::after { width: 100%; }
+
+    /* ── PAGE HEADER ──────────────────────── */
+    .page-header {
+      padding: 140px 60px 20px;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 72px;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .page-header p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* ── TIMELINE WRAPPER ─────────────────── */
+    .timeline {
+      position: relative;
+      max-width: 1100px;
+      margin: 60px auto 120px;
+      padding: 0 40px;
+    }
+
+    /* vertical line */
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, rgba(99,102,241,0.4) 5%, rgba(99,102,241,0.4) 95%, transparent);
+      transform: translateX(-50%);
+    }
+
+    /* ── EVENT BLOCK ──────────────────────── */
+    .event {
+      position: relative;
+      margin-bottom: 100px;
+    }
+
+    /* Event label badge */
+    .event-label {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    /* diamond dot on the line */
+    .event-label::before {
+      content: "";
+      width: 14px; height: 14px;
+      background: var(--blue-dark);
+      border: 3px solid white;
+      border-radius: 3px;
+      transform: rotate(45deg);
+      margin-bottom: 12px;
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.2);
+    }
+
+    .event-tag {
+      background: white;
+      border-radius: 999px;
+      padding: 6px 20px;
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .event-year {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── SCATTER GRID ─────────────────────── */
+    .scatter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+      position: relative;
+      min-height: 340px;
+    }
+
+    /* ── POLAROID ─────────────────────────── */
+    .polaroid {
+      background: white;
+      padding: 10px 10px 42px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08);
+      cursor: pointer;
+      position: relative;
+      width: 190px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s;
+      z-index: 1;
+      margin: -10px;   /* allow overlap */
+    }
+
+    /* Default rotations — overridden per nth-child */
+    .polaroid:nth-child(1)  { transform: rotate(-4deg)   translate(8px, 6px); }
+    .polaroid:nth-child(2)  { transform: rotate(2.5deg)  translate(-4px, 14px); }
+    .polaroid:nth-child(3)  { transform: rotate(-1.5deg) translate(10px, -8px); }
+    .polaroid:nth-child(4)  { transform: rotate(3.5deg)  translate(-8px, 10px); }
+    .polaroid:nth-child(5)  { transform: rotate(-3deg)   translate(6px, 20px); }
+    .polaroid:nth-child(6)  { transform: rotate(1.8deg)  translate(-10px, 4px); }
+    .polaroid:nth-child(7)  { transform: rotate(-2.5deg) translate(4px, 12px); }
+    .polaroid:nth-child(8)  { transform: rotate(4deg)    translate(-6px, -6px); }
+
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.07) translateY(-12px) !important;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.22), 0 6px 20px rgba(0,0,0,0.1);
+      z-index: 50 !important;
+    }
+
+    .polaroid-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      background: #cbd5e1;
+    }
+
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 17px;
+      color: #333;
+      text-align: center;
+      margin-top: 8px;
+      line-height: 1.3;
+      padding: 0 4px;
+    }
+
+    /* ── TAPE ──────────────────────────────── */
+    .polaroid::before {
+      content: "";
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 56px;
+      height: 24px;
+      background: rgba(255,230,100,0.55);
+      border: 1px solid rgba(200,180,0,0.25);
+      backdrop-filter: blur(1px);
+      border-radius: 2px;
+      z-index: 5;
+    }
+
+    /* alternate tape angle */
+    .polaroid:nth-child(even)::before {
+      transform: translateX(-50%) rotate(3deg);
+      left: 45%;
+    }
+
+    /* ── LIGHTBOX ──────────────────────────── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,15,30,0.92);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      cursor: zoom-out;
+      gap: 20px;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      background: white;
+      padding: 14px 14px 28px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+      max-width: 90vw;
+      cursor: default;
+      transform: scale(0.95);
+      transition: transform 0.35s ease;
+    }
+
+    .lightbox.active .lightbox-inner {
+      transform: scale(1);
+    }
+
+    .lightbox-inner img {
+      max-width: 80vw;
+      max-height: 72vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lightbox-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .lightbox-event {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 24px; right: 28px;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 1000;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+    /* ── FOOTER SPACE ─────────────────────── */
+    .end-note {
+      text-align: center;
+      padding: 0 0 100px;
+      font-family: 'Caveat', cursive;
+      font-size: 28px;
+      color: rgba(30,41,59,0.5);
+    }
+
+    /* ── RESPONSIVE ───────────────────────── */
+    @media (max-width: 700px) {
+      .timeline::before { left: 20px; }
+      .event-label { align-items: flex-start; padding-left: 44px; }
+      .event-label::before { position: absolute; left: 13px; }
+      .scatter { justify-content: flex-start; padding-left: 60px; }
+      .polaroid { width: 150px; }
+      nav { left: 16px; right: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="assets/images/logo.jpg" alt="logo">
+      <span>Stalwarts Legacy</span>
+    </a>
+    <ul>
+      <li><a href="members.html">Members</a></li>
+      <li><a href="memories.html">Memories</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <h1>Our Memories</h1>
+    <p>Two years. Every moment worth keeping.</p>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline" id="timeline"></div>
+
+  <div class="end-note">… and a hundred more we'll never forget ✦</div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div class="lightbox-inner">
+      <img id="lbImg" src="" alt="">
+      <div class="lightbox-caption" id="lbCaption"></div>
+      <div class="lightbox-event"   id="lbEvent"></div>
+    </div>
+  </div>
+
+  <script src="memories-data.js"></script>
+  <script>
+    // ── RENDER ──
+    const timeline = document.getElementById('timeline');
+
+    memories.forEach(({ event, year, photos }) => {
+      const block = document.createElement('div');
+      block.className = 'event';
+
+      const label = `
+        <div class="event-label">
+          <div class="event-tag">${event}</div>
+          <div class="event-year">${year}</div>
+        </div>`;
+
+      const cards = photos.map(({ src, caption }) => `
+        <div class="polaroid" onclick="openLightbox('${src}', '${caption.replace(/'/g,"\\'")}', '${event}')">
+          <img class="polaroid-img" src="${src}" alt="${caption}">
+          <div class="polaroid-caption">${caption}</div>
+        </div>`).join('');
+
+      block.innerHTML = label + `<div class="scatter">${cards}</div>`;
+      timeline.appendChild(block);
+    });
+
+    // ── LIGHTBOX ──
+    function openLightbox(src, caption, event) {
+      document.getElementById('lbImg').src         = src;
+      document.getElementById('lbCaption').textContent = caption;
+      document.getElementById('lbEvent').textContent   = event;
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+
+</body>
+</html>

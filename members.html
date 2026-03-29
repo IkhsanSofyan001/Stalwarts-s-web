@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Members — Yearbook 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blue-light: #bfdbfe;
+      --blue-mid: #a5b4fc;
+      --blue-dark: #6366f1;
+    }
+
+    body {
+      background: linear-gradient(135deg, #bfdbfe, #a5b4fc, #c4b5fd);
+      background-attachment: fixed;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 40px;
+      right: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.05);
+      padding: 10px 20px;
+      border-radius: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .logo span {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    nav ul a {
+      color: #1e293b;
+      text-decoration: none;
+      font-size: 14px;
+      position: relative;
+    }
+
+    nav ul a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: var(--blue-dark);
+      left: 0;
+      bottom: -4px;
+      transition: 0.3s;
+    }
+
+    nav ul a:hover::after { width: 100%; }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 140px 60px 60px;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 64px;
+      color: #1e293b;
+      line-height: 1;
+    }
+
+    .page-header p {
+      margin-top: 10px;
+      color: #475569;
+      font-size: 15px;
+    }
+
+    /* GRID */
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 32px;
+      padding: 0 80px 100px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* POLAROID CARD */
+    .polaroid {
+      background: white;
+      padding: 10px 10px 20px;
+      border-radius: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .polaroid:nth-child(odd)  { transform: rotate(-1.5deg); }
+    .polaroid:nth-child(even) { transform: rotate(1.2deg); }
+    .polaroid:nth-child(3n)   { transform: rotate(-0.5deg); }
+
+    .polaroid:hover {
+      transform: rotate(0deg) translateY(-8px) scale(1.03) !important;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 2;
+    }
+
+    .polaroid-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      background: #cbd5e1;
+    }
+
+    .polaroid-name {
+      font-family: 'Caveat', cursive;
+      font-size: 26px;
+      font-weight: 700;
+      color: #000000;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .polaroid-quote {
+      font-family: 'Caveat', cursive;
+      font-size: 18px;
+      color: #000000;
+      text-align: center;
+      margin-top: 3px;
+      font-style: italic;
+      line-height: 1.3;
+      padding: 0 4px;
+    }
+
+    /* PROFILE OVERLAY */
+    .overlay-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .overlay-bg.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* PROFILE CARD */
+    .profile-card {
+      background: white;
+      border-radius: 24px;
+      width: 90%;
+      max-width: 700px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.25);
+      transform: translateY(30px) scale(0.97);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .overlay-bg.active .profile-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+
+    .close-btn:hover { background: #e2e8f0; }
+
+    /* PROFILE HEADER */
+    .profile-header {
+      display: flex;
+      gap: 24px;
+      padding: 32px;
+      border-bottom: 1px solid #f1f5f9;
+      align-items: flex-start;
+    }
+
+    .profile-photo {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #cbd5e1;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    .profile-intro { flex: 1; }
+
+    .profile-name {
+      font-family: 'Caveat', cursive;
+      font-size: 36px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1;
+    }
+
+    .profile-quote {
+      font-style: italic;
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 8px;
+      border-left: 3px solid var(--blue-mid);
+      padding-left: 10px;
+      line-height: 1.5;
+    }
+
+    .profile-social {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--blue-dark);
+      text-decoration: none;
+      background: #eef2ff;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* PROFILE BODY */
+    .profile-body { padding: 24px 32px; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .info-block {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    .info-block.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .info-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .info-value {
+      font-size: 14px;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    /* EXTRA IMAGES */
+    .extra-images-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .extra-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .extra-images img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #cbd5e1;
+      cursor: zoom-in;
+      transition: opacity 0.2s;
+    }
+
+    .extra-images img:hover {
+      opacity: 0.85;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      cursor: zoom-out;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="assets/images/logo.jpg" alt="logo">
+      <span>Stalwarts Legacy</span>
+    </a>
+    <ul>
+      <li><a href="members.html">Members</a></li>
+      <li><a href="memories.html">Memories</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <h1>The Class of 2026</h1>
+    <p>36 faces. 36 stories. Click anyone to know them better.</p>
+  </div>
+
+  <div class="members-grid" id="membersGrid"></div>
+
+  <!-- EXPANDED PROFILE -->
+  <div class="overlay-bg" id="overlayBg" onclick="closeProfile(event)">
+    <div class="profile-card" id="profileCard">
+      <button class="close-btn" onclick="closeOverlay()">✕</button>
+
+      <div class="profile-header">
+        <img class="profile-photo" id="pPhoto" src="" alt="">
+        <div class="profile-intro">
+          <div class="profile-name" id="pName"></div>
+          <div class="profile-quote" id="pQuote"></div>
+          <a class="profile-social" id="pSocial" href="#" target="_blank">
+            <span>@</span><span id="pSocialHandle"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="profile-body">
+        <div class="info-grid">
+          <div class="info-block">
+            <div class="info-label">Fun Fact</div>
+            <div class="info-value" id="pFact"></div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Ambition</div>
+            <div class="info-value" id="pAmbition"></div>
+          </div>
+          <div class="info-block full-width">
+            <div class="info-label">Message to the Class</div>
+            <div class="info-value" id="pMessage"></div>
+          </div>
+        </div>
+
+        <div class="extra-images-label">More Photos</div>
+        <div class="extra-images" id="pExtraImages"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
+  <script src="members-data.js"></script>
+  <script>
+    const grid = document.getElementById('membersGrid');
+
+    members.forEach((m) => {
+      const card = document.createElement('div');
+      card.className = 'polaroid';
+      card.innerHTML = `
+        <img class="polaroid-img" src="${m.photo}" alt="${m.name}">
+        <div class="polaroid-name">${m.name}</div>
+        <div class="polaroid-quote">"${m.quote}"</div>
+      `;
+      card.addEventListener('click', () => openProfile(m));
+      grid.appendChild(card);
+    });
+
+    function openProfile(m) {
+      document.getElementById('pPhoto').src                = m.photo;
+      document.getElementById('pName').textContent         = m.name;
+      document.getElementById('pQuote').textContent        = `"${m.quote}"`;
+      document.getElementById('pSocial').href              = m.social;
+      document.getElementById('pSocialHandle').textContent = m.handle;
+      document.getElementById('pFact').textContent         = m.fact;
+      document.getElementById('pAmbition').textContent     = m.ambition;
+      document.getElementById('pMessage').textContent      = m.message;
+
+      const extras = document.getElementById('pExtraImages');
+      extras.innerHTML = m.extraPhotos.map(src =>
+        `<img src="${src}" alt="" onclick="openLightbox('${src}')">`
+      ).join('');
+
+      document.getElementById('overlayBg').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeOverlay() {
+      document.getElementById('overlayBg').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closeProfile(e) {
+      if (e.target === document.getElementById('overlayBg')) closeOverlay();
+    }
+
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeOverlay();
+        closeLightbox();
+      }
+    });
+  </script>
+
+</body>
+</html>
